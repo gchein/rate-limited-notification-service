@@ -13,6 +13,7 @@ module RateLimitedNotificationService
       generate.assets false
       generate.helper false
       generate.test_framework :rspec, fixture: false
+      generate.factory_bot dir: 'spec/factories'
     end
 
     # Initialize configuration defaults for originally generated Rails version.
