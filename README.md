@@ -2,9 +2,9 @@
 
 ## Initial Approach
 
-- [ ] **Define the Schema**
+- [x] **Define the Schema**
 
-- [ ] **Create the Models**
+- [x] **Create the Models**
 
 - [ ] **Define the Routes and Corresponding Controller Actions**
 
