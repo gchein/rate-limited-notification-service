@@ -1,24 +1,22 @@
-# README
+# Rate-Limited Notification Service Workflow
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Initial Approach
 
-Things you may want to cover:
+- [ ] **Define the Schema**
 
-* Ruby version
+- [ ] **Create the Models**
 
-* System dependencies
+- [ ] **Define the Routes and Corresponding Controller Actions**
 
-* Configuration
+- [ ] **Define how the Notification Service will be implemented (scopes / ActiveRecord Query with #count / other)**
 
-* Database creation
+- [ ] **Implement the rule-setting system that will be consumed by the Notification Service (YAML file / Rules Hash Constant / Rule Dynamic Model)**
 
-* Database initialization
+- [ ] **Create the Service Respecting the Rules**
 
-* How to run the test suite
+- [ ] **Refactor as Applicable and Retest Application Functionality**
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [ ] **Add to README**
+  - [ ] Implicit assumptions and definitions.
+  - [ ] Guide for running and testing the application.
+  - [ ] Additional notes or instructions.
