@@ -17,12 +17,14 @@ class Notification < ApplicationRecord
   validates :notification_type, :message, presence: true
   validates :notification_type, inclusion: { in: NOTIFICATION_TYPES }
 
-  validate :can_send_to_user?
+  validate :can_send_to_user?, on: :create
 
   private
 
   def can_send_to_user?
-    errors.add(:base, "Max Notification Limit reached") unless validate_ruleset
+    if validate_ruleset == false
+      errors.add(:base, "Max Notification Limit reached")
+    end
   end
 
   def validate_ruleset

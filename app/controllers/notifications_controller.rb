@@ -1,5 +1,10 @@
 class NotificationsController < ApplicationController
   def create
+    unless params[:notification].present?
+      render json: { errors: "Please send a valid request body" }, status: :unprocessable_entity
+      return
+    end
+
     @notification = Notification.new(notification_params)
 
     if @notification.save

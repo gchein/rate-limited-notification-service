@@ -10,28 +10,32 @@ RSpec.describe Notification, type: :model do
         expect(notification).to be_valid
       end
 
-      it 'is invalid without a type' do
+      it 'is invalid without a type, with type error notification only' do
         notification.notification_type = nil
         expect(notification).not_to be_valid
         expect(notification.errors[:notification_type]).to include("can't be blank")
+        expect(notification.errors.to_hash.keys).to eq([:notification_type])
       end
 
-      it 'is invalid with an incorrect type' do
+      it 'is invalid with an incorrect type, with type error notification only' do
         notification.notification_type = 'Invalid Type'
         expect(notification).not_to be_valid
         expect(notification.errors[:notification_type]).to include("is not included in the list")
+        expect(notification.errors.to_hash.keys).to eq([:notification_type])
       end
 
-      it 'is invalid without a message' do
+      it 'is invalid without a message, with message error notification only' do
         notification.message = nil
         expect(notification).not_to be_valid
         expect(notification.errors[:message]).to include("can't be blank")
+        expect(notification.errors.to_hash.keys).to eq([:message])
       end
 
-      it 'is invalid without a user' do
+      it 'is invalid without a user, with user error notification only' do
         notification.user = nil
         expect(notification).not_to be_valid
         expect(notification.errors[:user]).to include("must exist")
+        expect(notification.errors.to_hash.keys).to eq([:user])
       end
 
       it 'should be destroyed if User is destroyed' do
@@ -61,6 +65,15 @@ RSpec.describe Notification, type: :model do
 
           expect(notification).not_to be_valid
           expect(notification.errors[:base]).to include("Max Notification Limit reached")
+        end
+
+        it 'should only trigger when creating, not updating a record' do
+          smallest_limit = RATE_LIMIT_RULES[notification_type_sym].each_value.min
+          create_list(:notification, smallest_limit, user:, notification_type:)
+
+          notification = Notification.last
+          notification.message = "New Message"
+          expect(notification).to be_valid
         end
       end
     end
