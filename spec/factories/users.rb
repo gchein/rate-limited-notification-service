@@ -1,10 +1,10 @@
 FactoryBot.define do
   sequence :user_name do |n|
-    "Test User #{n + 1}"
+    "Test User #{n}"
   end
 
   sequence :user_email do |n|
-    "test.user_#{n + 1}@example.com"
+    "test.user_#{n}@example.com"
   end
 
   factory :user do

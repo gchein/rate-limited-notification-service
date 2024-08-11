@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.new(notification_params)
 
     if @notification.save
-      render json: @notification
+      render json: "#{@notification.message}\n"
     else
       render json: { errors: @notification.errors.as_json(full_messages: true) }, status: :unprocessable_entity
     end
