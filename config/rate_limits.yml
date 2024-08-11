@@ -1,0 +1,15 @@
+status_update:
+  minute: 2
+  hour: 30
+  day:  50
+
+daily_news:
+  day:  1
+
+marketing:
+  hour:  3
+  day: 10
+
+project_invitation:
+  day:  1
+  month: 3

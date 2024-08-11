@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  NOTIFICATION_TYPES = ["Status Update", "Daily News", "Project Invitation"]
+  NOTIFICATION_TYPES = ["Status Update", "Daily News", "Project Invitation", "Marketing"]
 
   belongs_to :user
 
