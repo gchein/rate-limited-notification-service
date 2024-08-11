@@ -49,4 +49,18 @@ RSpec.describe Notification, type: :model do
       end
     end
   end
+
+  describe 'model scopes' do
+    describe 'Notification.count_notifications_by_user_and_type' do
+      it 'should correctly count notifications by user and type' do
+        user = create(:user)
+        create_list(:notification, 2, user: user, notification_type: "Status Update")
+        create_list(:notification, 3, user: user, notification_type: "Daily News")
+
+        scope_result = Notification.count_notifications_by_user_and_type(user)
+
+        expect(scope_result).to eq({ "Status Update" => 2, "Daily News" => 3 })
+      end
+    end
+  end
 end

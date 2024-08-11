@@ -3,6 +3,10 @@ class Notification < ApplicationRecord
 
   belongs_to :user
 
+  scope :count_notifications_by_user_and_type, -> (user) {
+    where(user: user).group(:notification_type).count
+  }
+
   validates :notification_type, :message, presence: true
   validates :notification_type, inclusion: { in: NOTIFICATION_TYPES }
 end
