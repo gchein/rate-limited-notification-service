@@ -1,6 +1,6 @@
 FactoryBot.define do
   sequence :message_sample do |n|
-    "Message #{n + 1}"
+    "Message #{n}"
   end
 
   factory :notification do

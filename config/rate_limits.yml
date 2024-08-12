@@ -1,7 +1,7 @@
 status_update:
   minute: 2
-  hour: 30
-  day:  50
+  hour: 5
+  day:  20
 
 daily_news:
   day:  1

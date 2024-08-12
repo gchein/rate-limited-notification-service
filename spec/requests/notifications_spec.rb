@@ -18,13 +18,15 @@ RSpec.describe "Notifications Controller", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "responds with the created instance" do
+      it "responds with the Notification message" do
         post notifications_path, params: { notification: valid_params }
 
-        response_json = JSON.parse(response.body, { symbolize_names: true })
-        created_record_params = response_json.filter { |key| valid_params.key?(key) }
+        user_name = User.find(valid_params[:user_id]).name
+        message = valid_params[:message]
 
-        expect(created_record_params).to eq(valid_params)
+        expected_response = "Sending message to user \'#{user_name}\'\n\n#{message}"
+
+        expect(response.body.chomp).to eq(expected_response)
       end
     end
 
