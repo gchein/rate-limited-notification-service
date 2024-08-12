@@ -10,7 +10,7 @@
 
 2. **Install dependencies:**
    ```sh
-    bundle install
+    bin/bundle install
     ```
 
 3. **Setup the Database:**
@@ -62,15 +62,15 @@ If there is an error, the server will return a status of "Unprocessable Entity" 
 To run the test suite, use the following command:
   ```sh
 # For running the entire suite
-bundle exec rspec
+bin/bundle exec rspec
 
 # For running a single file
-bundle exec rspec spec/models/notification_spec.rb
+bin/bundle exec rspec spec/models/notification_spec.rb
 
 # For running a single module in a file (pass the line in which the module begins)
 # For example, the test for the rate-limiting functionality is on line 63 of the notification model's spec file,
 # so the command for this test module would be the below
-bundle exec rspec spec/models/notification_spec.rb:63
+bin/bundle exec rspec spec/models/notification_spec.rb:63
   ```
 
 All the files related to the test suite are in the 'spec' folder, mainly the two below:
