@@ -29,7 +29,7 @@ If you need to reset the database, run the command below, then the commands in t
 
 4. **Start the server:**
    ```sh
-    bin/rails serve
+    bin/rails server
     ```
 
 ## Interacting with the API
