@@ -54,23 +54,33 @@ Here's an example using cURL (assuming the server is running on port 3000):
 
 **Error Handling:**
 
-If there is an error, the server will return a status of "Unprocessable Entity" (422). This could pose a potential security threat (eg. someone would be able to test if a user ID exists or not), but for this assignment only, I find that not to be a problem. Adjustments can be made further on to enhance security.
+If there is an error, the server will return a status of "Unprocessable Entity" (422) with the error message. This could pose a potential security threat (eg. someone would be able to test if a user ID exists or not), but for this assignment only, I find that not to be a problem. Adjustments can be made further on to enhance security.
 
 
 ## Running the test suite
 
 To run the test suite, use the following command:
   ```sh
+# For running the entire suite
 bundle exec rspec
+
+# For running a single file
+bundle exec rspec spec/models/notification_spec.rb
+
+# For running a single module in a file (pass the line in which the module begins)
+# For example, the test for the rate-limiting functionality is on line 63 of the notification model's spec file,
+# so the command for this test module would be the below
+bundle exec rspec spec/models/notification_spec.rb:63
   ```
 
 All the files related to the test suite are in the 'spec' folder, mainly the two below:
  - ***'spec/models/notification_spec.rb'***: This is the file that tests the Notification model's behaviours and validations. The enforcement of the limitations imposed by the ruleset is tested here.
  - ***'spec/requests/notifications_spec.rb'***: This is the file that tests the Notifications Controller, to ensure that the HTTP Requests are being handled properly.
 
-## Remarks, Assumptions, and Future Development
+## Additional Notes
  - **User Model**: A basic User model was created for testing purposes to ensure the code is functioning correctly.
-- **Notification Model**: The attribute notification_type was used instead of type to avoid conflicts with Rails' reserved column names.
+- **Notification Model**: The attribute 'notification_type' was used instead of 'type' to avoid conflicts with Rails' reserved column names.
 - **Email Sending**: As agreed by email, the email sending function is simulated by logging the notification message to the console.
-- **Rule Management**: A YAML file ('config/rate_limits.yml') with safe loading and a deserialization check was used to define the ruleset for filtering notifications (see: 'config/initializers/rate_limits.rb'). If the rules need to be dynamic and frequently updated, it could make sense to implement a separate Rule model. This would allow authorized users to create, edit, and delete rules via endpoints in the API. However, this approach could have performance implications and would require careful consideration. Some notes on this decision are in the WORKFLOW.md file.
+- **Rule Management**: A YAML file ('config/rate_limits.yml') with safe loading and a deserialization check (see: 'config/initializers/rate_limits.rb') was used to define the ruleset for filtering notifications. This allows for a rather simple update of the ruleset, without needing to alter the code, and with available security options to ensure that only authorized users are able to alter this file.
+   - If the rules need to be dynamic and frequently updated, it could make sense to implement a separate Rule model. This would allow authorized users to create, edit, and delete rules via endpoints in the API. However, this approach could have performance implications and would require careful consideration. Some notes on this decision are in the WORKFLOW.md file.
 - **Performance Considerations**: For better performance, caching strategies could be implemented to reduce database hits, and job queueing could be introduced (for instance using Sidekiq or ActiveJob) for processing requests in a multi-threaded environment.
