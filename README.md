@@ -64,6 +64,10 @@ To run the test suite, use the following command:
 bundle exec rspec
   ```
 
+All the files related to the test suite are in the 'spec' folder, mainly the two below:
+ - ***'spec/models/notification_spec.rb'***: This is the file that tests the Notification model's behaviours and validations. The enforcement of the limitations imposed by the ruleset is tested here.
+ - ***'spec/requests/notifications_spec.rb'***: This is the file that tests the Notifications Controller, to ensure that the HTTP Requests are being handled properly.
+
 ## Remarks, Assumptions, and Future Development
  - **User Model**: A basic User model was created for testing purposes to ensure the code is functioning correctly.
 - **Notification Model**: The attribute notification_type was used instead of type to avoid conflicts with Rails' reserved column names.
