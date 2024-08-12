@@ -44,12 +44,21 @@ RSpec.describe Notification, type: :model do
 
         expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
+
+      it 'notification type should be case insentive and adjust extra whitespace' do
+        notification = build(:notification, notification_type: "  pROjeCt   inVItaTion   ")
+        expect(notification).to be_valid
+      end
     end
 
     context 'custom validations' do
       let(:user) { create(:user) }
       let(:notification_type) { "Status Update" }
       let(:notification_type_sym) { :status_update }
+      let(:smallest_limit) { RATE_LIMIT_RULES[notification_type_sym].each_value.min }
+      let(:fill_smallest_notification_limit) {
+        create_list(:notification, smallest_limit, user:, notification_type:)
+      }
 
       describe 'can_send_to_user?' do
         it 'should be valid for an empty database' do
@@ -58,9 +67,7 @@ RSpec.describe Notification, type: :model do
         end
 
         it 'should be invalid when notifications reach max limit' do
-          smallest_limit = RATE_LIMIT_RULES[notification_type_sym].each_value.min
-          create_list(:notification, smallest_limit, user:, notification_type:)
-
+          fill_smallest_notification_limit
           notification = build(:notification, user:, notification_type:)
 
           expect(notification).not_to be_valid
@@ -68,12 +75,20 @@ RSpec.describe Notification, type: :model do
         end
 
         it 'should only trigger when creating, not updating a record' do
-          smallest_limit = RATE_LIMIT_RULES[notification_type_sym].each_value.min
-          create_list(:notification, smallest_limit, user:, notification_type:)
+          fill_smallest_notification_limit
 
           notification = Notification.last
           notification.message = "New Message"
           expect(notification).to be_valid
+        end
+
+        it 'should only add error if there is a message' do
+          fill_smallest_notification_limit
+
+          notification = build(:notification, user:, notification_type:, message: nil)
+
+          expect(notification).not_to be_valid
+          expect(notification.errors[:base]).not_to include("Max Notification Limit reached")
         end
       end
     end
@@ -116,9 +131,13 @@ RSpec.describe Notification, type: :model do
     end
 
     describe 'count_notifications_by_user_and_type' do
-      it 'should correctly count notifications by user and type' do
-        smallest_limit = RATE_LIMIT_RULES[notification_type_sym].each_value.min
+      let(:smallest_limit) { RATE_LIMIT_RULES[notification_type_sym].each_value.min }
+      let(:fill_smallest_notification_limit) {
         create_list(:notification, smallest_limit, user:, notification_type:)
+      }
+
+      it 'should correctly count notifications by user and type' do
+        fill_smallest_notification_limit
         scope_result = Notification.count_notifications_by_user_and_type(user:, notification_type:)
 
         expect(scope_result).to eq(smallest_limit)

@@ -6,7 +6,8 @@
 
 - [x] **Create the Models**
 
-- [ ] **Define the Routes and Corresponding Controller Actions**
+- [x] **Define the Routes and Corresponding Controller Actions**
+  - Only route needed was the create for the API to function properly, as the validation of the rules was done entirely by the Notification Model
 
 - [x] **Define how the Notification Service will be implemented (scopes / ActiveRecord Query with #count / other)**
   - Will first attempt to use scopes, as it seems at first to be the easiest and most straightforward way to build and test the ActiveRecord queries that will be used, as well as alowing for chaining of scope calls, which can make the code more readable
@@ -24,7 +25,8 @@
   - As a custom validation method, a new Notification can only be saved if it respects the limits layed out in the YAML file with the limits per type of notification, per 'time_window' eg.(minute, hour, day, month etc.)
   - This makes it possible for the '#create' method in the Notification Controller to respond with a JSON with the applicable error when trying to persist the Notitication sent through the POST request
 
-- [ ] **Refactor as Applicable and Retest Application Functionality**
+- [x] **Refactor as Applicable and Retest Application Functionality**
+  - Did a few refactorings, specified throughout the commits
 
 - [ ] **Add to README**
   - [ ] Implicit assumptions and definitions.

@@ -21,7 +21,12 @@ RSpec.describe "Notifications Controller", type: :request do
       it "responds with the Notification message" do
         post notifications_path, params: { notification: valid_params }
 
-        expect(response.body.chomp).to eq(valid_params[:message])
+        user_name = User.find(valid_params[:user_id]).name
+        message = valid_params[:message]
+
+        expected_response = "Sending message to user \'#{user_name}\'\n\n#{message}"
+
+        expect(response.body.chomp).to eq(expected_response)
       end
     end
 
